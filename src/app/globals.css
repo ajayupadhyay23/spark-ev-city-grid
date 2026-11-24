@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "leaflet/dist/leaflet.css";
+@import "leaflet.markercluster/dist/MarkerCluster.css";
+@import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+
+/**
+ * @file src/app/globals.css
+ * @description Global stylesheet with CSS variable design tokens for Light and Dark themes,
+ * --nav-h fixed navbar offset variable, Leaflet clustering rules, and custom scrollbars.
+ * @purpose Defines semantic design tokens consumed by Tailwind so both Dark mode (cinematic #050506)
+ * and Light mode render with consistent rust accents, readable typography, and theme-adaptive maps.
+ */
+
+:root {
+  /* Navigation Height Variable */
+  --nav-h: 72px;
+
+  /* Light Theme Semantic Tokens */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --surface-subtle: #f8fafc;
+  --border: rgba(15, 23, 42, 0.12);
+  --border-strong: rgba(15, 23, 42, 0.22);
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #C2603F;
+  --glow-blue: rgba(0, 180, 216, 0.25);
+  --glow-orange: rgba(249, 115, 22, 0.25);
+}
+
+.dark {
+  /* Navigation Height Variable */
+  --nav-h: 72px;
+
+  /* Cinematic Dark Theme Semantic Tokens */
+  --bg: #050506;
+  --surface: #0e0e14;
+  --surface-2: #151520;
+  --surface-3: #1f1f2e;
+  --surface-subtle: #09090d;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #C2603F;
+  --glow-blue: rgba(0, 210, 255, 0.4);
+  --glow-orange: rgba(255, 122, 0, 0.4);
+}
+
+body {
+  color: var(--text);
+  background-color: var(--bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
+}
+
+/* Custom Marker Cluster Styling */
+.marker-cluster-small {
+  background-color: rgba(16, 185, 129, 0.4) !important;
+}
+.marker-cluster-small div {
+  background-color: rgba(16, 185, 129, 0.85) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.marker-cluster-medium {
+  background-color: rgba(245, 158, 11, 0.4) !important;
+}
+.marker-cluster-medium div {
+  background-color: rgba(245, 158, 11, 0.85) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.marker-cluster-large {
+  background-color: rgba(194, 96, 63, 0.4) !important;
+}
+.marker-cluster-large div {
+  background-color: rgba(194, 96, 63, 0.85) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Theme Adaptive Leaflet Popup Styling */
+.leaflet-popup-content-wrapper {
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  padding: 4px !important;
+}
+
+.leaflet-popup-tip {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.leaflet-container {
+  font-family: inherit !important;
+  background-color: var(--surface-subtle) !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Watermark-free, high-contrast dark mode tiles for OSM basemaps */
+.leaflet-tile-pane .osm-dark-tiles {
+  filter: brightness(0.62) invert(1) contrast(2.8) hue-rotate(200deg) saturate(0.28) brightness(0.72) !important;
+}
+
+/* Custom Interactive Spot Tooltip */
+.custom-spot-tooltip {
+  background-color: rgba(14, 14, 20, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #f8fafc !important;
+  border-radius: 12px !important;
+  padding: 6px 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  font-family: inherit !important;
+  letter-spacing: normal !important;
+}
+.custom-spot-tooltip::before {
+  border-top-color: rgba(14, 14, 20, 0.95) !important;
+}
+
+/* Pulse animation for active card / active marker sync while scrolling */
+@keyframes markerBeaconPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(194, 96, 63, 0.8);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 14px rgba(194, 96, 63, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(194, 96, 63, 0);
+  }
+}
+
+.marker-beacon-active {
+  animation: markerBeaconPulse 1.8s infinite ease-out;
+}
+
+/* Smooth scrolling container */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Scrollbars adhering to active theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted);
+}
